@@ -3,7 +3,7 @@ import Loader from "./Loader";
 //Api
 import Api from "../service/Api";
 import ErrorIndicator from "./ErrorIndicator";
-
+import '../scss/randomPlanet.scss';
 //Компонент выводит данные о планете
 class RandomPlanet extends Component {
 
@@ -48,9 +48,17 @@ class RandomPlanet extends Component {
     }
 
     componentDidMount() {
-        const id = Math.floor(Math.random() *  25) + 2; //Для генерации случчайного id при каждой загрузке компонента
-        this.loadedPlanet(id);
+       this.interval = setInterval((id) => {
+            id = Math.floor(Math.random() *  25) + 2; //Для генерации случчайного id при каждой загрузке компонента
+            this.loadedPlanet(id)
+        }, 3500)
+
     };
+
+    //Данный метод срабатывает когда компонент удаляеться
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
 
     render() {
         return (
@@ -63,23 +71,28 @@ class RandomPlanet extends Component {
                         {this.state.loading ?
                             <Loader/>
                             :
-                            <div>
-                                <img className="planet-image" src={`https://starwars-visualguide.com/assets/img/planets/${this.state.id}.jpg`} />
-                                <h4>{this.state.name}</h4>
-                                <ul className="list-group list-group-flush">
-                                    <li className="list-group-item">
-                                        <span className="term">Population </span>
-                                        <span>{this.state.population}</span>
-                                    </li>
-                                    <li className="list-group-item">
-                                        <span className="term">Rotation Period </span>
-                                        <span>{this.state.rotationPeriod}</span>
-                                    </li>
-                                    <li className="list-group-item">
-                                        <span className="term">Diameter </span>
-                                        <span>{this.state.diameter}</span>
-                                    </li>
-                                </ul>
+                            <div className="random-planet__info">
+                                <img className="planet-image"
+                                     src={`https://starwars-visualguide.com/assets/img/planets/${this.state.id}.jpg`}
+                                     alt={this.state.name}
+                                />
+                                <div>
+                                    <h4 className="random-planet__name">{this.state.name}</h4>
+                                    <ul className="list-group list-group-flush">
+                                        <li className="list-group-item">
+                                            <span className="term">Population: </span>
+                                            <span>{this.state.population}</span>
+                                        </li>
+                                        <li className="list-group-item">
+                                            <span className="term">Rotation Period: </span>
+                                            <span>{this.state.rotationPeriod}</span>
+                                        </li>
+                                        <li className="list-group-item">
+                                            <span className="term">Diameter: </span>
+                                            <span>{this.state.diameter}</span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         }
                     </div>

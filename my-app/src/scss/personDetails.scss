@@ -1,0 +1,17 @@
+.person-details {
+  background: #2B2A2B;
+  padding: 20px;
+  border: 2px solid #343334;
+  margin-bottom: 40px;
+  &__img {
+    width: 200px;
+    border-radius: 10px;
+  }
+  &__info {
+    margin-left: 20px;
+  }
+}
+
+.card-body {
+  display: flex;
+}

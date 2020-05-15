@@ -1,0 +1,14 @@
+.header {
+  display: flex;
+  align-items: center;
+  &__title {
+    margin-right: 40px;
+  }
+  &__nav {
+    list-style: none;
+    padding: 0;
+    li {
+      margin-right: 20px;
+    }
+  }
+}

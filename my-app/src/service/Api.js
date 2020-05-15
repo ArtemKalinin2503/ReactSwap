@@ -15,8 +15,8 @@ export default class Api {
     }
 
     //Запрос данных о человеке исходя из переданного id
-    getPerson(id) {
-        return axios.get(`${this._apiBase}people/${id}`)
+    async getPerson(id) {
+        return await axios.get(`${this._apiBase}people/${id}`)
             .then(response => {
                 return response.data
             })
@@ -25,6 +25,14 @@ export default class Api {
     //Запрос данных о карабле исходя из переданного id
     async getStarship(id) {
         return await axios.get(`${this._apiBase}starships/${id}`)
+            .then(response => {
+                return response.data
+            })
+    }
+
+    //Запрос данных о человеке исходя из переданного id
+    getAllPerson() {
+        return axios.get(`${this._apiBase}people/`)
             .then(response => {
                 return response.data
             })
