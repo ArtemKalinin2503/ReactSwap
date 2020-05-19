@@ -7,7 +7,7 @@ class PersonDetails extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            person: []
+            person: null
         }
     }
 
@@ -16,11 +16,11 @@ class PersonDetails extends Component{
 
     //Метод получает id выбранного персоонажа в props.personId
     updatePerson = () => {
-        if (!this.props.personId) {
+        if (!this.props.itemId) {
             return;
         }
         //Метод который получает данные о персоонаже
-        this.swapiAPI.getPerson(this.props.personId)
+        this.swapiAPI.getPerson(this.props.itemId)
             .then(data => {
                 this.setState({
                     person: data
@@ -35,16 +35,22 @@ class PersonDetails extends Component{
     //Метод сработает только при повторном изменение state (prevProps - это встроенный параметр)
     componentDidUpdate(prevProps) {
         //Если personId не равен предыдущему значению
-        if (this.props.personId !== prevProps.personId) {
+        if (this.props.itemId !== prevProps.itemId) {
             this.updatePerson();
         }
     }
 
     render() {
+
+        if(!this.state.person) {
+            return <h3>Select person</h3>
+            console.log('1111')
+        }
+
         return(
             <div className="person-details">
                 <div className="card-body">
-                    <img src={`https://starwars-visualguide.com/assets/img/characters/${this.props.personId}.jpg`}
+                    <img src={`https://starwars-visualguide.com/assets/img/characters/${this.props.itemId}.jpg`}
                          alt={this.state.person.name}
                          className="person-details__img"
                     />

@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import ItemList from "./ItemList";
+import ItemListPeople from "./ItemListPeople";
 import PersonDetails from "./PersonDetails";
 import ErrorIndicator from "./ErrorIndicator";
+import {withRouter} from 'react-router-dom';
 
 //Компонент с данными о персоонаже
 class PagePersons extends Component{
@@ -9,19 +10,11 @@ class PagePersons extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            personSelected: 1,
             hasError: false
         }
     };
 
-    //Метод получает id из компонента ItemList и получает id персоонажа по котрому прошел клик
-    onItemSelected = (id) => {
-        this.setState({
-            personSelected: id
-        })
-    };
-
-    //Метод позволяет отловить ошибки в компоненте (не сетевые) и не допустить упасть все приложению
+    //Метод позволяет отловить ошибки в компоненте (не сетевые) и не допустить упасть всему приложению
     componentDidCatch() {
         this.setState({
             hasError: true
@@ -35,14 +28,20 @@ class PagePersons extends Component{
            return <ErrorIndicator/>
         }
 
+        const {id} = this.props.match.params; //Получим id из url
+
         return (
             <div className="pagePersons__wrapper">
                 <div className="row mb2">
                     <div className="col-md-6">
-                        <ItemList onItemSelected={this.onItemSelected}/>
+                        <ItemListPeople
+                            onItemSelected={(itemId) => {
+                                this.props.history.push(`/people/${itemId}`) //С помощью встроенного метода history пеередадим в url id выбраного персоонажа
+                            }}
+                        />
                     </div>
                     <div className="col-md-6">
-                        <PersonDetails personId={this.state.personSelected}/> {/*Передаим id выбраннго персоонажа*/}
+                        <PersonDetails itemId={id}/> {/*Передадим id выбраного персоонажа*/}
                     </div>
                 </div>
             </div>
@@ -50,4 +49,4 @@ class PagePersons extends Component{
     }
 }
 
-export default PagePersons
+export default withRouter(PagePersons)

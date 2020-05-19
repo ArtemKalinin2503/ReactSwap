@@ -3,12 +3,12 @@ import Api from "../service/Api";
 import Loader from "./Loader";
 import '../scss/itemList.scss';
 
-class ItemList extends Component{
+class ItemListStarship extends Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            peopleList: null
+            starShipsList: null
         }
     }
 
@@ -16,10 +16,10 @@ class ItemList extends Component{
     swapiAPI = new Api();
 
     componentDidMount() {
-        this.swapiAPI.getAllPerson()
+        this.swapiAPI.getAllStarships()
             .then(data => {
                 this.setState({
-                    peopleList: data.results
+                    starShipsList: data.results
                 })
             })
 
@@ -28,23 +28,23 @@ class ItemList extends Component{
     render() {
 
         //Показать Loader - пока нет данных о персоонаже
-        if (!this.state.peopleList) {
+        if (!this.state.starShipsList) {
             return <Loader/>
         }
 
         return(
             <div className="item-list">
                 <ul className="item-list list-group">
-                    {this.state.peopleList.map((item, id) => {
+                    {this.state.starShipsList.map((item, itemId) => {
                         return (
-                                <li
-                                    key={id}
-                                    className="list-group-item"
-                                    onClick={() => this.props.onItemSelected(id+1)} //Принимаем метод в качестве props
-                                >
-                                    {item.name}
-                                </li>
-                            )
+                            <li
+                                key={itemId}
+                                className="list-group-item"
+                                onClick={() => this.props.onItemSelected(itemId+1)} //Принимаем метод в качестве props
+                            >
+                                {item.name}
+                            </li>
+                        )
                     })}
                 </ul>
             </div>
@@ -52,4 +52,4 @@ class ItemList extends Component{
     }
 }
 
-export default ItemList;
+export default ItemListStarship;
